@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue fight | Nepathya</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .top-buffer { margin-top:20px; }
+    </style>
+</head>
+<body>
+    <div class="container" id="root">
+        <div class="row">
+            <div class="col-6 text-center"><h1>You</h1></div>
+            <div class="col-6 text-center"><h1>Enemy</h1></div>
+        </div>
+        <div class="row">
+            <div class="col-6 text-center">
+                <div class="progress">
+                    <div :class="['progress-bar' ,{
+                        'bg-success':playerStrength<=100 && playerStrength >=60,
+                        'bg-info':playerStrength<=59 && playerStrength >=40,
+                        'bg-danger':playerStrength<=39 && playerStrength >=0,
+                    }]" role="progressbar" :style="{width: playerStrength+'%'}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{playerStrength}}%</div>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                <div class="progress">
+                    <div :class="['progress-bar' ,{
+                        'bg-success':enemyStrength<=100 && enemyStrength >=60,
+                        'bg-info':enemyStrength<=59 && enemyStrength >=40,
+                        'bg-danger':enemyStrength<=39 && enemyStrength >=0,
+                    }]" role="progressbar" :style="{width: enemyStrength+'%'}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{enemyStrength}}%</div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-light top-buffer">
+            <div class="col-12 text-center">
+                <button class="btn btn-info" @click="attack">Attack</button>
+                <button class="btn btn-info" @click="largeAttach" :disabled="largeAttackCount===0 || playerStrength>60">Large Attack ({{largeAttackCount}})</button>
+                <button class="btn btn-info" @click="heal" :disabled="healCount===0 || playerStrength>40">Heal ({{healCount}})</button>
+                <button class="btn btn-danger" @click="startAgain(true)" :disabled="playerStrength===100 && enemyStrength===100 && logs.length===0">Start Again</button>
+            </div>
+        </div>
+        <div class="row top-buffer bg-light" style="height: 300px;overflow: scroll;">
+            <div class="col-12">
+                <div :class="[alert, {'alert-success':log.isGood,'alert-danger':log.isGood===false,}]" role="alert" v-for="log in logs">
+                    {{log.message}}
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js" integrity="sha256-NSuqgY2hCZJUN6hDMFfdxvkexI7+iLxXQbL540RQ/c4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="app.js"></script>
+</body>
+</html>
